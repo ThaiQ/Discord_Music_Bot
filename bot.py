@@ -1,12 +1,15 @@
 from discord.ext import commands
 from youtube import YTDLSource
+import discord
+
+intents = discord.Intents.all()
 
 #env.txt - Im too lazy for .env loader
 with open('env.txt') as f:
     token = f.readlines()
 
 #client
-client = commands.Bot(command_prefix='.')
+client = commands.Bot(command_prefix='.', intents=intents)
 queue = []
 current_song = None
 
@@ -51,8 +54,9 @@ async def joinVC(ctx):
         else:
             voice_client=voice_client[0]
         return voice_client
-    except:
+    except NameError:
         await ctx.message.channel.send('Connect to VC to play songs!')
+        print(NameError)
         return None
 
 @client.command(
